@@ -4,7 +4,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI()
 
-origins = ["http://localhost:3000", "localhost:3000"]
+origins = ["http://localhost:3000", "localhost:3000", "https://ph-tools.github.io"]
 
 
 app.add_middleware(
@@ -18,4 +18,4 @@ app.add_middleware(
 
 @app.get("/", tags=["root"])
 async def read_root() -> dict:
-    return {"message": "this is another test...."}
+    return {"message": "this is some more and more test...."}
