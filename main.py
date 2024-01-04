@@ -29,13 +29,33 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+import json
+
+
+@app.get("/fans")
+def get_fans() -> List[RecordDict]:
+    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
+    table = api.table("app2huKgwyKrnMRbp", "tblCwWhH3YuNV34ec")
+    data = table.all()
+    return data
 
 
 @app.get("/erv_units")
 def get_erv_units() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
     table = api.table("app2huKgwyKrnMRbp", "tblQtcVgB6iYbyhis")
-    return table.all()
+    data = table.all()
+
+    # -- Temp for testing only --
+    # WRITE:
+    # with open("data.json", "w") as f:
+    #     json.dump(data, f)
+
+    # READ:
+    # with open("data.json") as f:
+    #     data = json.load(f)
+
+    return data
 
 
 @app.get("/", tags=["root"])
