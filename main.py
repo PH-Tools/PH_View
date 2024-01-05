@@ -32,10 +32,66 @@ app.add_middleware(
 import json
 
 
+@app.get("/materials")
+def get_materials() -> List[RecordDict]:
+    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
+    table = api.table("app2huKgwyKrnMRbp", "tblaqehqmP6xfOPUP")
+    data = table.all()
+    return data
+
+
+@app.get("/window_unit_types")
+def get_window_unit_types() -> List[RecordDict]:
+    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
+    table = api.table("app2huKgwyKrnMRbp", "tbln2qVrxqSNlAJOK")
+    data = table.all()
+    return data
+
+
+@app.get("/frame_types")
+def get_frame_types() -> List[RecordDict]:
+    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
+    table = api.table("app2huKgwyKrnMRbp", "tblJm0uhhChDY0jKQ")
+    data = table.all()
+    return data
+
+
+@app.get("/glazing_types")
+def get_glazing_types() -> List[RecordDict]:
+    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
+    table = api.table("app2huKgwyKrnMRbp", "tblbreMnmdsKDCYTN")
+    data = table.all()
+    return data
+
+
+@app.get("/appliances")
+def get_appliances() -> List[RecordDict]:
+    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
+    table = api.table("app2huKgwyKrnMRbp", "tblgk5pneolD192Dv")
+    data = table.all()
+    return data
+
+
+@app.get("/lighting")
+def get_lighting() -> List[RecordDict]:
+    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
+    table = api.table("app2huKgwyKrnMRbp", "tblRH6A9tLyKGsUD0")
+    data = table.all()
+    return data
+
+
 @app.get("/fans")
 def get_fans() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
     table = api.table("app2huKgwyKrnMRbp", "tblCwWhH3YuNV34ec")
+    data = table.all()
+    return data
+
+
+@app.get("/pumps")
+def get_pumps() -> List[RecordDict]:
+    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
+    table = api.table("app2huKgwyKrnMRbp", "tbl3F59OhLXcgaWm0")
     data = table.all()
     return data
 
