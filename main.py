@@ -13,6 +13,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from pyairtable import Api
 from pyairtable.api.types import RecordDict
 
+AIRTABLE_APP = "app2huKgwyKrnMRbp"
+
 app = FastAPI()
 
 origins = [
@@ -32,10 +34,18 @@ app.add_middleware(
 import json
 
 
+@app.get("/cert_results")
+def get_certification_results() -> List[RecordDict]:
+    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
+    table = api.table(AIRTABLE_APP, "tblh7tTM2RJkt4zF1")
+    data = table.all()
+    return data
+
+
 @app.get("/materials")
 def get_materials() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table("app2huKgwyKrnMRbp", "tblaqehqmP6xfOPUP")
+    table = api.table(AIRTABLE_APP, "tblaqehqmP6xfOPUP")
     data = table.all()
     return data
 
@@ -43,7 +53,7 @@ def get_materials() -> List[RecordDict]:
 @app.get("/window_unit_types")
 def get_window_unit_types() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table("app2huKgwyKrnMRbp", "tbln2qVrxqSNlAJOK")
+    table = api.table(AIRTABLE_APP, "tbln2qVrxqSNlAJOK")
     data = table.all()
     return data
 
@@ -51,7 +61,7 @@ def get_window_unit_types() -> List[RecordDict]:
 @app.get("/frame_types")
 def get_frame_types() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table("app2huKgwyKrnMRbp", "tblJm0uhhChDY0jKQ")
+    table = api.table(AIRTABLE_APP, "tblJm0uhhChDY0jKQ")
     data = table.all()
     return data
 
@@ -59,7 +69,7 @@ def get_frame_types() -> List[RecordDict]:
 @app.get("/glazing_types")
 def get_glazing_types() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table("app2huKgwyKrnMRbp", "tblbreMnmdsKDCYTN")
+    table = api.table(AIRTABLE_APP, "tblbreMnmdsKDCYTN")
     data = table.all()
     return data
 
@@ -67,7 +77,7 @@ def get_glazing_types() -> List[RecordDict]:
 @app.get("/appliances")
 def get_appliances() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table("app2huKgwyKrnMRbp", "tblgk5pneolD192Dv")
+    table = api.table(AIRTABLE_APP, "tblgk5pneolD192Dv")
     data = table.all()
     return data
 
@@ -75,7 +85,7 @@ def get_appliances() -> List[RecordDict]:
 @app.get("/lighting")
 def get_lighting() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table("app2huKgwyKrnMRbp", "tblRH6A9tLyKGsUD0")
+    table = api.table(AIRTABLE_APP, "tblRH6A9tLyKGsUD0")
     data = table.all()
     return data
 
@@ -83,7 +93,7 @@ def get_lighting() -> List[RecordDict]:
 @app.get("/fans")
 def get_fans() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table("app2huKgwyKrnMRbp", "tblCwWhH3YuNV34ec")
+    table = api.table(AIRTABLE_APP, "tblCwWhH3YuNV34ec")
     data = table.all()
     return data
 
@@ -91,7 +101,7 @@ def get_fans() -> List[RecordDict]:
 @app.get("/pumps")
 def get_pumps() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table("app2huKgwyKrnMRbp", "tbl3F59OhLXcgaWm0")
+    table = api.table(AIRTABLE_APP, "tbl3F59OhLXcgaWm0")
     data = table.all()
     return data
 
@@ -99,7 +109,7 @@ def get_pumps() -> List[RecordDict]:
 @app.get("/erv_units")
 def get_erv_units() -> List[RecordDict]:
     api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table("app2huKgwyKrnMRbp", "tblQtcVgB6iYbyhis")
+    table = api.table(AIRTABLE_APP, "tblQtcVgB6iYbyhis")
     data = table.all()
 
     # -- Temp for testing only --
