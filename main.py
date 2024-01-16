@@ -18,6 +18,7 @@ from pyairtable.api.types import RecordDict
 AIRTABLE_BASE_IDS = {
     "proj_2242": {
         "app": "app2huKgwyKrnMRbp",
+        "config": "_______________",
         "cert_results": "tblh7tTM2RJkt4zF1",
         "materials": "tblaqehqmP6xfOPUP",
         "window_unit_types": "tbln2qVrxqSNlAJOK",
@@ -31,6 +32,7 @@ AIRTABLE_BASE_IDS = {
     },
     "proj_2305": {
         "app": "app64a1JuYVBs7Z1m",
+        "config": "tblRMar5uK7mDZ8yM",
         "cert_results": "tbluEAhlFEuhfuE5v",
         "materials": "tblkWxg3xXMjzjO32",
         "window_unit_types": "tblGOpIen7MnCuQRe",
@@ -80,6 +82,14 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/{project_id}/config")
+def get_config(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "config"))
+    data = table.all()
+    return data
 
 
 @app.get("/{project_id}/cert_results")
