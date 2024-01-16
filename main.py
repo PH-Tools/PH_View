@@ -21,6 +21,7 @@ origins = [
     "http://localhost:3000",
     "localhost:3000",
     "https://ph-tools.github.io",
+    "https://bldgtyp.github.io",
 ]
 
 
