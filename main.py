@@ -1,5 +1,6 @@
 import os
-from typing import List
+from typing import List, Tuple
+import json
 
 try:
     from dotenv import load_dotenv
@@ -13,7 +14,54 @@ from fastapi.middleware.cors import CORSMiddleware
 from pyairtable import Api
 from pyairtable.api.types import RecordDict
 
-AIRTABLE_APP = "app2huKgwyKrnMRbp"
+# AirTable Database ID data
+AIRTABLE_BASE_IDS = {
+    "proj_2242": {
+        "app": "app2huKgwyKrnMRbp",
+        "cert_results": "tblh7tTM2RJkt4zF1",
+        "materials": "tblaqehqmP6xfOPUP",
+        "window_unit_types": "tbln2qVrxqSNlAJOK",
+        "frame_types": "tblJm0uhhChDY0jKQ",
+        "glazing_types": "tblbreMnmdsKDCYTN",
+        "appliances": "tblgk5pneolD192Dv",
+        "lighting": "tblRH6A9tLyKGsUD0",
+        "fans": "tblCwWhH3YuNV34ec",
+        "pumps": "tbl3F59OhLXcgaWm0",
+        "erv_units": "tblQtcVgB6iYbyhis",
+    },
+    "proj_2305": {
+        "app": "app64a1JuYVBs7Z1m",
+        "cert_results": "tbluEAhlFEuhfuE5v",
+        "materials": "tblkWxg3xXMjzjO32",
+        "window_unit_types": "tblGOpIen7MnCuQRe",
+        "frame_types": "tblejOjMq62zdRT3D",
+        "glazing_types": "tbl3JAeRMqiloWQ65",
+        "appliances": "tblqfzzcqc3o2IcD4",
+        "lighting": "tblkLN5vn6fcXnTRT",
+        "fans": "tbldbadmmNca7E1Nr",
+        "pumps": "tbliRO0hZim8oQ2qw",
+        "erv_units": "tblkIaP1TspndVI5f",
+    },
+}
+
+
+def get_airtable_ids(project_id: str, table_name: str) -> Tuple[str, str]:
+    """
+    Return the Airtable base-od and table name for a given project number.
+
+    Args:
+    * project_id: The project number (ie: "proj_2242")
+    * table_name: The name of the table to return (ie: "cert_results")
+
+    Returns:
+    * base_id: The AirTable 'base-id' for the project (ie: "app2...bp").
+    * table_name: The AirTable 'table-name' for the project (ie: "tblC...ec").
+    """
+
+    app_id = AIRTABLE_BASE_IDS[project_id]["app"]
+    table_name = AIRTABLE_BASE_IDS[project_id][table_name]
+    return app_id, table_name
+
 
 app = FastAPI()
 
@@ -32,85 +80,84 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
-import json
 
 
-@app.get("/cert_results")
-def get_certification_results() -> List[RecordDict]:
-    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table(AIRTABLE_APP, "tblh7tTM2RJkt4zF1")
+@app.get("/{project_id}/cert_results")
+def get_certification_results(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "cert_results"))
     data = table.all()
     return data
 
 
-@app.get("/materials")
-def get_materials() -> List[RecordDict]:
-    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table(AIRTABLE_APP, "tblaqehqmP6xfOPUP")
+@app.get("/{project_id}/materials")
+def get_materials(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "materials"))
     data = table.all()
     return data
 
 
-@app.get("/window_unit_types")
-def get_window_unit_types() -> List[RecordDict]:
-    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table(AIRTABLE_APP, "tbln2qVrxqSNlAJOK")
+@app.get("/{project_id}/window_unit_types")
+def get_window_unit_types(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "window_unit_types"))
     data = table.all()
     return data
 
 
-@app.get("/frame_types")
-def get_frame_types() -> List[RecordDict]:
-    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table(AIRTABLE_APP, "tblJm0uhhChDY0jKQ")
+@app.get("/{project_id}/frame_types")
+def get_frame_types(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "frame_types"))
     data = table.all()
     return data
 
 
-@app.get("/glazing_types")
-def get_glazing_types() -> List[RecordDict]:
-    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table(AIRTABLE_APP, "tblbreMnmdsKDCYTN")
+@app.get("/{project_id}/glazing_types")
+def get_glazing_types(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "glazing_types"))
     data = table.all()
     return data
 
 
-@app.get("/appliances")
-def get_appliances() -> List[RecordDict]:
-    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table(AIRTABLE_APP, "tblgk5pneolD192Dv")
+@app.get("/{project_id}/appliances")
+def get_appliances(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "appliances"))
     data = table.all()
     return data
 
 
-@app.get("/lighting")
-def get_lighting() -> List[RecordDict]:
-    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table(AIRTABLE_APP, "tblRH6A9tLyKGsUD0")
+@app.get("/{project_id}/lighting")
+def get_lighting(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "lighting"))
     data = table.all()
     return data
 
 
-@app.get("/fans")
-def get_fans() -> List[RecordDict]:
-    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table(AIRTABLE_APP, "tblCwWhH3YuNV34ec")
+@app.get("/{project_id}/fans")
+def get_fans(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "fans"))
     data = table.all()
     return data
 
 
-@app.get("/pumps")
-def get_pumps() -> List[RecordDict]:
-    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table(AIRTABLE_APP, "tbl3F59OhLXcgaWm0")
+@app.get("/{project_id}/pumps")
+def get_pumps(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "pumps"))
     data = table.all()
     return data
 
 
-@app.get("/erv_units")
-def get_erv_units() -> List[RecordDict]:
-    api = Api(os.environ["AIRTABLE_ARVERNE_GET_POST"])
-    table = api.table(AIRTABLE_APP, "tblQtcVgB6iYbyhis")
+@app.get("/{project_id}/erv_units")
+def get_erv_units(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "erv_units"))
     data = table.all()
 
     # -- Temp for testing only --
@@ -125,6 +172,6 @@ def get_erv_units() -> List[RecordDict]:
     return data
 
 
-@app.get("/", tags=["root"])
-async def read_root() -> dict:
-    return {"message": str(os.environ["AIRTABLE_ARVERNE_GET_POST"])}
+@app.get("/{project_id}/", tags=["root"])
+async def read_root(project_id: str) -> dict:
+    return {"message": "root"}
