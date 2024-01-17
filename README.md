@@ -5,7 +5,6 @@
 1) `source .venv/bin/activate`
 1) `pip install -r requirements.txt`
 
-
 ## Run Locally in development-mode
 1) `main.py`:
 	- Add `origins = ["http://localhost:3000", ...]` for React
