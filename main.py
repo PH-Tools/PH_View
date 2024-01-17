@@ -68,12 +68,10 @@ def get_airtable_ids(project_id: str, table_name: str) -> Tuple[str, str]:
 app = FastAPI()
 
 origins = [
-    "http://localhost:8000/PH_View/*",
-    "http://localhost:3000/*",
-    "localhost:8000/PH_View/*",
-    "localhost:3000/*",
-    "https://ph-tools.github.io/*",
-    "https://bldgtyp.github.io/*",
+    "http://localhost:3000",
+    "localhost:3000",
+    "https://ph-tools.github.io",
+    "https://bldgtyp.github.io",
 ]
 
 
