@@ -18,7 +18,7 @@ from pyairtable.api.types import RecordDict
 AIRTABLE_BASE_IDS = {
     "proj_2242": {
         "app": "app2huKgwyKrnMRbp",
-        "config": "_______________",
+        "config": "tblOPg6rOq7Uy2zJT",
         "cert_results": "tblh7tTM2RJkt4zF1",
         "materials": "tblaqehqmP6xfOPUP",
         "window_unit_types": "tbln2qVrxqSNlAJOK",
