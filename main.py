@@ -9,8 +9,10 @@ try:
 except Exception as e:
     print(e)
 
+from requests.exceptions import HTTPError
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi import HTTPException
 from pyairtable import Api
 from pyairtable.api.types import RecordDict
 
@@ -18,6 +20,7 @@ from pyairtable.api.types import RecordDict
 AIRTABLE_BASE_IDS = {
     "proj_2242": {
         "app": "app2huKgwyKrnMRbp",
+        "summary": "tblb8D5jcw1KyB522",
         "config": "tblOPg6rOq7Uy2zJT",
         "cert_results": "tblh7tTM2RJkt4zF1",
         "materials": "tblaqehqmP6xfOPUP",
@@ -32,6 +35,7 @@ AIRTABLE_BASE_IDS = {
     },
     "proj_2305": {
         "app": "app64a1JuYVBs7Z1m",
+        "summary": "tblapLjAFgm7RIllz",
         "config": "tblRMar5uK7mDZ8yM",
         "cert_results": "tbluEAhlFEuhfuE5v",
         "materials": "tblkWxg3xXMjzjO32",
@@ -49,7 +53,7 @@ AIRTABLE_BASE_IDS = {
 
 def get_airtable_ids(project_id: str, table_name: str) -> Tuple[str, str]:
     """
-    Return the Airtable base-od and table name for a given project number.
+    Return the Airtable base-id and table name for a given project number.
 
     Args:
     * project_id: The project number (ie: "proj_2242")
@@ -82,6 +86,20 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+
+@app.get("/{project_id}/summary")
+def get_summary(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    try:
+        table = api.table(*get_airtable_ids(project_id, "summary"))
+    except HTTPError as e:
+        raise HTTPException(
+            status_code=400,
+            detail=f"Error occurred while fetching data for project: {project_id}/summary\n{e}",
+        )
+    data = table.all()
+    return data
 
 
 @app.get("/{project_id}/config")
