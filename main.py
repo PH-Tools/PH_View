@@ -32,6 +32,7 @@ AIRTABLE_BASE_IDS = {
         "fans": "tblCwWhH3YuNV34ec",
         "pumps": "tbl3F59OhLXcgaWm0",
         "erv_units": "tblQtcVgB6iYbyhis",
+        "hot_water_tanks": "tblPPiCNkZE1s5NgW",
     },
     "proj_2305": {
         "app": "app64a1JuYVBs7Z1m",
@@ -47,6 +48,7 @@ AIRTABLE_BASE_IDS = {
         "fans": "tbldbadmmNca7E1Nr",
         "pumps": "tbliRO0hZim8oQ2qw",
         "erv_units": "tblkIaP1TspndVI5f",
+        "hot_water_tanks": "_________________",
     },
 }
 
@@ -178,6 +180,14 @@ def get_fans(project_id: str) -> List[RecordDict]:
 def get_pumps(project_id: str) -> List[RecordDict]:
     api = Api(os.environ["PH_VIEW_GET"])
     table = api.table(*get_airtable_ids(project_id, "pumps"))
+    data = table.all()
+    return data
+
+
+@app.get("/{project_id}/hot_water_tanks")
+def get_hot_water_tanks(project_id: str) -> List[RecordDict]:
+    api = Api(os.environ["PH_VIEW_GET"])
+    table = api.table(*get_airtable_ids(project_id, "hot_water_tanks"))
     data = table.all()
     return data
 
