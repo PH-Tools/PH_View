@@ -48,7 +48,7 @@ AIRTABLE_BASE_IDS = {
         "fans": "tbldbadmmNca7E1Nr",
         "pumps": "tbliRO0hZim8oQ2qw",
         "erv_units": "tblkIaP1TspndVI5f",
-        "hot_water_tanks": "_________________",
+        "hot_water_tanks": "tbl3EYwyh6HhmlbqP",
     },
 }
 
